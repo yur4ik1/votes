@@ -1,10 +1,19 @@
 export default async function handler(req, res) {
+    // Додаємо заголовки CORS
+    res.setHeader('Access-Control-Allow-Origin', 'https://ninjable.io'); // Дозволяємо доступ з вашого домену
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    // Дозволяємо передзапити (preflight requests) для OPTIONS
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     if (req.method === 'POST') {
         const { id, votes } = req.body;
 
         try {
-            // Запит на MockAPI для оновлення кількості голосів
-            const response = await fetch(`https://mockapi.io/endpoint/votes/${id}`, {
+            const response = await fetch(`https://mockapi.io/endpoint/features/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +32,7 @@ export default async function handler(req, res) {
             res.status(500).json({ error: 'Failed to update votes' });
         }
     } else {
-        res.setHeader('Allow', ['POST']);
+        res.setHeader('Allow', ['POST', 'OPTIONS']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
