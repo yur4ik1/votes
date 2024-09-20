@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     const { id } = req.query;
 
     try {
-        const response = await fetch(`https://66ed47bb380821644cdc47f2.mockapi.io/features/${id}`);
+        const response = await fetch(`https://66edbb6b380821644cddd697.mockapi.io/features/features/${id}`);
         const data = await response.json();
         res.status(200).json({ votes: data.votes });
     } catch (error) {
